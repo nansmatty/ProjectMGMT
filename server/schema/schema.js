@@ -18,6 +18,23 @@ const ClientType = new GraphQLObjectType({
 	}),
 });
 
+//Project Type
+const ProjectType = new GraphQLObjectType({
+	name: 'Project',
+	fields: () => ({
+		id: { type: GraphQLID },
+		client: {
+			type: ClientType,
+			resolve(parent, args) {
+				return clients.find((client) => client.id === args.id);
+			},
+		},
+		name: { type: GraphQLString },
+		description: { type: GraphQLString },
+		status: { type: GraphQLString },
+	}),
+});
+
 const RootQuery = new GraphQLObjectType({
 	name: 'RootQueryType',
 	fields: {
@@ -32,6 +49,19 @@ const RootQuery = new GraphQLObjectType({
 			args: { id: { type: GraphQLID } },
 			resolve(parent, args) {
 				return clients.find((client) => client.id === args.id);
+			},
+		},
+		projects: {
+			type: new GraphQLList(ProjectType),
+			resolve(parent, args) {
+				return projects;
+			},
+		},
+		project: {
+			type: ProjectType,
+			args: { id: { type: GraphQLID } },
+			resolve(parent, args) {
+				return projects.find((project) => project.id === args.id);
 			},
 		},
 	},

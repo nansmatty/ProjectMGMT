@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
-	clientId: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Client',
-	},
 	name: {
 		type: String,
 	},
@@ -13,7 +9,11 @@ const projectSchema = new mongoose.Schema({
 	},
 	status: {
 		type: String,
-		enum: ['NotStarted', 'In Progress', 'Completed'],
+		enum: ['Not Started', 'In Progress', 'Completed'],
+	},
+	clientId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Client',
 	},
 });
 
